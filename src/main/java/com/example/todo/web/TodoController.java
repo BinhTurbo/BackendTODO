@@ -46,7 +46,7 @@ public class TodoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Todo> update(@AuthenticationPrincipal UserDetails principal,
-                                    @PathVariable Long id,
+                                    @PathVariable("id") Long id,
                                     @Valid @RequestBody TodoRequest req) {
         var u = userRepository.findByUsername(principal.getUsername()).orElseThrow();
 
@@ -57,15 +57,15 @@ public class TodoController {
                 t.setDescription(req.description());
                 t.setCompleted(req.completed());
                 var saved = todoRepository.save(t);
-                return ResponseEntity.ok(saved);                      // ResponseEntity<Todo>
+                return ResponseEntity.ok(saved);
             })
-            .orElseGet(() -> ResponseEntity.status(404).build());     // ResponseEntity<Todo> (no body)
+            .orElseGet(() -> ResponseEntity.status(404).build());
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@AuthenticationPrincipal UserDetails principal,
-                                    @PathVariable Long id) {
+                                    @PathVariable("id") Long id) {
         User u = userRepository.findByUsername(principal.getUsername()).orElseThrow();
         return todoRepository.findById(id)
                 .filter(t -> t.getUser().getId().equals(u.getId()))

@@ -2,8 +2,6 @@ package com.example.todo.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
